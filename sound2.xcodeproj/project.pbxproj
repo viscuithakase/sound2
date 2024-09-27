@@ -18,6 +18,16 @@
 		E127BCC32C993FD800A0C646 /* sound2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127BCC22C993FD800A0C646 /* sound2Tests.swift */; };
 		E127BCCD2C993FD800A0C646 /* sound2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127BCCC2C993FD800A0C646 /* sound2UITests.swift */; };
 		E127BCCF2C993FD800A0C646 /* sound2UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127BCCE2C993FD800A0C646 /* sound2UITestsLaunchTests.swift */; };
+		E127BCDC2C9DBFDB00A0C646 /* AudioSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127BCDB2C9DBFDB00A0C646 /* AudioSample.swift */; };
+		E14F44052CA68B9C0013D440 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E14F43F92CA68B9C0013D440 /* Actions.sks */; };
+		E14F44062CA68B9C0013D440 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F43FA2CA68B9C0013D440 /* AppDelegate.swift */; };
+		E14F44072CA68B9C0013D440 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E14F43FB2CA68B9C0013D440 /* Assets.xcassets */; };
+		E14F44082CA68B9C0013D440 /* AudioSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F43FC2CA68B9C0013D440 /* AudioSample.swift */; };
+		E14F44092CA68B9C0013D440 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E14F43FD2CA68B9C0013D440 /* GameScene.sks */; };
+		E14F440A2CA68B9C0013D440 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F43FE2CA68B9C0013D440 /* GameScene.swift */; };
+		E14F440B2CA68B9C0013D440 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F43FF2CA68B9C0013D440 /* GameViewController.swift */; };
+		E14F440C2CA68B9C0013D440 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E14F44012CA68B9C0013D440 /* LaunchScreen.storyboard */; };
+		E14F440D2CA68B9C0013D440 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E14F44032CA68B9C0013D440 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +62,16 @@
 		E127BCC82C993FD800A0C646 /* sound2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = sound2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E127BCCC2C993FD800A0C646 /* sound2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sound2UITests.swift; sourceTree = "<group>"; };
 		E127BCCE2C993FD800A0C646 /* sound2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sound2UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E127BCDB2C9DBFDB00A0C646 /* AudioSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSample.swift; sourceTree = "<group>"; };
+		E14F43F92CA68B9C0013D440 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		E14F43FA2CA68B9C0013D440 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E14F43FB2CA68B9C0013D440 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E14F43FC2CA68B9C0013D440 /* AudioSample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioSample.swift; sourceTree = "<group>"; };
+		E14F43FD2CA68B9C0013D440 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		E14F43FE2CA68B9C0013D440 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		E14F43FF2CA68B9C0013D440 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		E14F44002CA68B9C0013D440 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E14F44022CA68B9C0013D440 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +126,8 @@
 				E127BCAA2C993FD600A0C646 /* GameScene.sks */,
 				E127BCAC2C993FD600A0C646 /* Actions.sks */,
 				E127BCAE2C993FD600A0C646 /* GameScene.swift */,
+				E127BCDB2C9DBFDB00A0C646 /* AudioSample.swift */,
+				E14F44042CA68B9C0013D440 /* sound2 */,
 				E127BCB02C993FD600A0C646 /* GameViewController.swift */,
 				E127BCB22C993FD600A0C646 /* Main.storyboard */,
 				E127BCB52C993FD800A0C646 /* Assets.xcassets */,
@@ -129,6 +151,22 @@
 				E127BCCE2C993FD800A0C646 /* sound2UITestsLaunchTests.swift */,
 			);
 			path = sound2UITests;
+			sourceTree = "<group>";
+		};
+		E14F44042CA68B9C0013D440 /* sound2 */ = {
+			isa = PBXGroup;
+			children = (
+				E14F43F92CA68B9C0013D440 /* Actions.sks */,
+				E14F43FA2CA68B9C0013D440 /* AppDelegate.swift */,
+				E14F43FB2CA68B9C0013D440 /* Assets.xcassets */,
+				E14F43FC2CA68B9C0013D440 /* AudioSample.swift */,
+				E14F43FD2CA68B9C0013D440 /* GameScene.sks */,
+				E14F43FE2CA68B9C0013D440 /* GameScene.swift */,
+				E14F43FF2CA68B9C0013D440 /* GameViewController.swift */,
+				E14F44012CA68B9C0013D440 /* LaunchScreen.storyboard */,
+				E14F44032CA68B9C0013D440 /* Main.storyboard */,
+			);
+			name = sound2;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,9 +273,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E14F440C2CA68B9C0013D440 /* LaunchScreen.storyboard in Resources */,
+				E14F440D2CA68B9C0013D440 /* Main.storyboard in Resources */,
 				E127BCAB2C993FD600A0C646 /* GameScene.sks in Resources */,
+				E14F44052CA68B9C0013D440 /* Actions.sks in Resources */,
 				E127BCB42C993FD600A0C646 /* Base in Resources */,
 				E127BCB62C993FD800A0C646 /* Assets.xcassets in Resources */,
+				E14F44092CA68B9C0013D440 /* GameScene.sks in Resources */,
+				E14F44072CA68B9C0013D440 /* Assets.xcassets in Resources */,
 				E127BCAD2C993FD600A0C646 /* Actions.sks in Resources */,
 				E127BCB92C993FD800A0C646 /* Base in Resources */,
 			);
@@ -264,8 +307,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E127BCDC2C9DBFDB00A0C646 /* AudioSample.swift in Sources */,
 				E127BCAF2C993FD600A0C646 /* GameScene.swift in Sources */,
 				E127BCB12C993FD600A0C646 /* GameViewController.swift in Sources */,
+				E14F44062CA68B9C0013D440 /* AppDelegate.swift in Sources */,
+				E14F440B2CA68B9C0013D440 /* GameViewController.swift in Sources */,
+				E14F44082CA68B9C0013D440 /* AudioSample.swift in Sources */,
+				E14F440A2CA68B9C0013D440 /* GameScene.swift in Sources */,
 				E127BCA92C993FD600A0C646 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,6 +365,22 @@
 				E127BCB82C993FD800A0C646 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E14F44012CA68B9C0013D440 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E14F44002CA68B9C0013D440 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E14F44032CA68B9C0013D440 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E14F44022CA68B9C0013D440 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -450,6 +514,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QQ24P4PD8V;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "このアプリは音声録音にマイクを使用します。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -478,6 +543,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = QQ24P4PD8V;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "このアプリは音声録音にマイクを使用します。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

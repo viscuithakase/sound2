@@ -7,82 +7,217 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameScene: SKScene {
+
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    var audioRecorder: AVAudioRecorder?
+    var isRecording = false
+    
+    var audioPlayer: AVAudioPlayer?
+    
+    var audioFilename: URL?
+    
+    var engine: AudioEngine?;
     
     override func didMove(to view: SKView) {
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+//        setupRecorder()
+
+        engine = AudioEngine()
+    }
+    
+    func setupRecorder() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to set up audio session: \(error)")
+        }
+
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        audioFilename = documentDirectory.appendingPathComponent("recording.m4a")
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioFilename!, settings: settings)
+            audioRecorder?.prepareToRecord()
+        } catch {
+            print("Failed to set up audio recorder: \(error)")
         }
         
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
+    }
+
         
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
-    }
-    
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-    
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+//        if !isRecording {
+//            startRecording()
+//        }
+
+        engine!.start()
+        for t in touches {
+            let l = t.location(in: self)
+            engine!.setFreq(t: t, f: l.x + 500)
         }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+        
+        for t in touches {
+            let l = t.location(in: self)
+            engine!.setFreq(t: t, f: l.x + 500)
+        }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        for t in touches {
+            engine!.stopFreq(t: t)
+        }
+    }
+
+    
+    func startRecording() {
+        guard let recorder = audioRecorder else { return }
+        recorder.record()
+        isRecording = true
+        print("Recording started")
+    }
+
+    func stopRecording() {
+        guard let recorder = audioRecorder else { return }
+        recorder.stop()
+        isRecording = false
+        print("Recording stopped")
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
+    func playRecording() {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: audioFilename!)
+            guard let player = audioPlayer else { return }
+            player.play()
+            print("Playing")
+        } catch {
+                
+        }
     }
 }
+
+class Wave {
+    private let sampleRate: Double = 44100
+    private var phase: Double = 0
+    private var frequency: Double = 440
+    private var freq : Double = 440
+    private var stopping : Bool = false
+    public var stopped : Bool = false
+    public var level: Double = 1
+
+    public func nextSin() -> Float {
+        if (stopping) {
+            level = level - 0.001
+            if (level < 0) {
+                stopped = true
+                stopping = false
+            }
+        }
+        if (stopped) {
+            return 0
+        }
+        
+        let value = Float(sin(2.0 * .pi * self.freq * self.phase / self.sampleRate)*level)
+        self.phase += 1
+        if (self.phase > (self.sampleRate / self.freq)) {
+            self.phase -= self.sampleRate / self.freq
+            freq = self.frequency
+        }
+        return value
+    }
+
+    public func setFreq(f:Double) {
+        frequency = f
+    }
+    public func stop() {
+        stopping = true
+    }
+}
+
+class AudioEngine {
+    private let engine = AVAudioEngine()
+    private var sourceNode: AVAudioSourceNode!
+
+    private let sampleRate: Double = 44100
+
+    private var waves: Dictionary<Int, Wave> = [:]
+    private var stopped: Set<Int> = []
+        
+    init() {
+        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2)!
+        
+        sourceNode = AVAudioSourceNode { _, _, frameCount, audioBufferList -> OSStatus in
+            let bufferPointer = UnsafeMutableAudioBufferListPointer(audioBufferList)
+            
+            var ww:Array<Wave> = []
+            for (_, w) in self.waves {
+                if (!w.stopped) {
+                    ww.append(w)
+                }
+            }
+            
+            for frame in 0..<Int(frameCount) {
+                var value:Float = 0
+                for w in ww {
+                    value += w.nextSin()
+                }
+                
+                bufferPointer[0].mData?.assumingMemoryBound(to: Float.self)[frame] = value
+                bufferPointer[1].mData?.assumingMemoryBound(to: Float.self)[frame] = value
+            }
+    
+            for (t, w) in self.waves {
+                if (w.stopped) {
+                    self.waves[t] = nil
+                }
+            }
+            
+            return noErr
+        }
+
+        engine.attach(sourceNode)
+        engine.connect(sourceNode, to: engine.mainMixerNode, format: format)
+    }
+    
+    func setFreq(t:UITouch, f:Double) {
+        if (waves[t.hash]==nil) {
+            waves[t.hash] = Wave()
+        }
+        waves[t.hash]?.setFreq(f:f)
+    }
+    func stopFreq(t:UITouch) {
+        waves[t.hash]?.stop()
+    }
+
+    func start() {
+        do {
+            if (!engine.isRunning) {
+                try engine.start()
+                print("Audio engine started")
+            }
+        } catch {
+            print("Error starting the audio engine: \(error)")
+        }
+    }
+
+    func stop() {
+        engine.stop()
+        print("Audio engine stopped")
+    }
+}
+
+// プログラムの終了などに応じて stop() を呼び出してエンジンを停止
