@@ -1,116 +1,175 @@
-//
-//  AudioSample.swift
-//  sound2
-//
-//  Created by yasunori harada on 2024/09/20.
-//
-
-import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
 
-    private let audioEngine = AVAudioEngine()
-    private var sourceNode: AVAudioSourceNode!
-    
+class Wave {
     private let sampleRate: Double = 44100
     private var phase: Double = 0
-    private var frequency: Double = 440 // 初期値の周波数 (440Hz = A音)
-    
-    private var isTouching = false
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // AVAudioEngineのセットアップ
-        setupAudioEngine()
-        
-        // タッチの追跡を有効にする
-        view.isMultipleTouchEnabled = false
-    }
-
+    private var frequency: Double = 440
     private var freq : Double = 440
+    private var stopping : Bool = false
+    public var stopped : Bool = false
+    public var level: Double = 1
 
-    private func nextSin() -> Float {
-        let value = Float(sin(2.0 * .pi * self.freq * self.phase / self.sampleRate))
-        self.phase += 1
-        if self.phase >= self.sampleRate {
-            self.phase -= self.sampleRate
+    public func nextSin() -> Float {
+        if (stopping) {
+            level = level - 0.001
+            if (level < 0) {
+                stopped = true
+                stopping = false
+            }
+        }
+        if (stopped) {
+            return 0
         }
         
-        if (self.phase > (self.freq * 100 / self.sampleRate)) {
-            self.phase = 0
-            freq += 10
-//            freq = self.frequency
+        let value = Float(sin(2.0 * .pi * self.freq * self.phase / self.sampleRate)*level)
+        self.phase += 1
+        if (self.phase > (self.sampleRate / self.freq)) {
+            self.phase -= self.sampleRate / self.freq
+            freq = self.frequency
         }
-                
         return value
     }
-    // オーディオエンジンのセットアップ
-    private func setupAudioEngine() {
-        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)!
 
-        // サイン波を生成するノードをセットアップ
+    public func setFreq(f:Double) {
+        frequency = f
+    }
+    public func stop() {
+        stopping = true
+    }
+}
+
+class AudioEngineX {
+    private let engine = AVAudioEngine()
+    private var sourceNode: AVAudioSourceNode!
+
+    private let sampleRate: Double = 44100
+
+    private var waves: Dictionary<Int, Wave> = [:]
+    private var stopped: Set<Int> = []
+        
+    init() {
+        let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2)!
+        
         sourceNode = AVAudioSourceNode { _, _, frameCount, audioBufferList -> OSStatus in
             let bufferPointer = UnsafeMutableAudioBufferListPointer(audioBufferList)
-            let buffer = bufferPointer[0].mData!.assumingMemoryBound(to: Float.self)
             
-            if self.isTouching {
-                for frame in 0..<Int(frameCount) {
-                    let value = self.nextSin()
-                    buffer[frame] = value
-                }
-            } else {
-                // タッチしていない場合は音を出さない
-                for frame in 0..<Int(frameCount) {
-                    buffer[frame] = 0.0
+            var ww:Array<Wave> = []
+            for (_, w) in self.waves {
+                if (!w.stopped) {
+                    ww.append(w)
                 }
             }
+            
+            for frame in 0..<Int(frameCount) {
+                var value:Float = 0
+                for w in ww {
+                    value += w.nextSin()
+                }
+                
+                bufferPointer[0].mData?.assumingMemoryBound(to: Float.self)[frame] = value
+                bufferPointer[1].mData?.assumingMemoryBound(to: Float.self)[frame] = value
+            }
+    
+            for (t, w) in self.waves {
+                if (w.stopped) {
+                    self.waves[t] = nil
+                }
+            }
+            
             return noErr
         }
-        
-        audioEngine.attach(sourceNode)
-        audioEngine.connect(sourceNode, to: audioEngine.mainMixerNode, format: format)
-        
+
+        engine.attach(sourceNode)
+        engine.connect(sourceNode, to: engine.mainMixerNode, format: format)
+    }
+    
+    func setFreq(id:Int, f:Double) {
+        if (waves[id]==nil) {
+            waves[id] = Wave()
+        }
+        waves[id]?.setFreq(f:f)
+    }
+    func stopFreq(id:Int) {
+        waves[id]?.stop()
+    }
+
+    func start() {
         do {
-            try audioEngine.start()
+            if (!engine.isRunning) {
+                try engine.start()
+                print("Audio engine started")
+            }
         } catch {
-            print("Audio engine error: \(error)")
+            print("Error starting the audio engine: \(error)")
         }
     }
-    
-    // 画面をタッチした際に呼ばれる
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        isTouching = true
-        updateFrequency(for: touch)
+
+    func stop() {
+        engine.stop()
+        print("Audio engine stopped")
     }
     
-    // タッチが動いた際に呼ばれる
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        updateFrequency(for: touch)
+    var audioRecorder: AVAudioRecorder?
+    var isRecording = false
+    
+    var audioPlayer: AVAudioPlayer?
+    
+    var audioFilename: URL?
+
+    
+    
+    func startRecording() {
+        guard let recorder = audioRecorder else { return }
+        recorder.record()
+        isRecording = true
+        print("Recording started")
+    }
+
+    func stopRecording() {
+        guard let recorder = audioRecorder else { return }
+        recorder.stop()
+        isRecording = false
+        print("Recording stopped")
     }
     
-    // タッチが終了した際に呼ばれる
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        isTouching = false
+    func playRecording() {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: audioFilename!)
+            guard let player = audioPlayer else { return }
+            player.play()
+            print("Playing")
+        } catch {
+                
+        }
     }
-    
-    // タッチをキャンセルした場合に呼ばれる
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        isTouching = false
-    }
-    
-    // タッチ位置に基づいて周波数を更新
-    private func updateFrequency(for touch: UITouch) {
-        let touchLocation = touch.location(in: self.view)
-        let screenHeight = view.bounds.height
+
+    func setupRecorder() {
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+        } catch {
+            print("Failed to set up audio session: \(error)")
+        }
+
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        audioFilename = documentDirectory.appendingPathComponent("recording.m4a")
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+
+        do {
+            audioRecorder = try AVAudioRecorder(url: audioFilename!, settings: settings)
+            audioRecorder?.prepareToRecord()
+        } catch {
+            print("Failed to set up audio recorder: \(error)")
+        }
         
-        // 画面の高さに基づいて周波数を計算（最低 220Hz から最大 880Hz の範囲）
-        let minFrequency: Double = 220
-        let maxFrequency: Double = 880
-        let positionRatio = Double(screenHeight - touchLocation.y) / Double(screenHeight)
-        frequency = minFrequency + (maxFrequency - minFrequency) * positionRatio
     }
+
+    
 }

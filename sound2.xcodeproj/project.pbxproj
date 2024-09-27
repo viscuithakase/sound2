@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10F82C8F2CA6DBB0005ACF6C /* TouchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F82C8E2CA6DBB0005ACF6C /* TouchCommand.swift */; };
 		E127BCA92C993FD600A0C646 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E127BCA82C993FD600A0C646 /* AppDelegate.swift */; };
 		E127BCAB2C993FD600A0C646 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = E127BCAA2C993FD600A0C646 /* GameScene.sks */; };
 		E127BCAD2C993FD600A0C646 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = E127BCAC2C993FD600A0C646 /* Actions.sks */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10F82C8E2CA6DBB0005ACF6C /* TouchCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchCommand.swift; sourceTree = "<group>"; };
 		E127BCA52C993FD600A0C646 /* sound2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sound2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E127BCA82C993FD600A0C646 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E127BCAA2C993FD600A0C646 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				E14F43FA2CA68B9C0013D440 /* AppDelegate.swift */,
 				E14F43FB2CA68B9C0013D440 /* Assets.xcassets */,
 				E14F43FC2CA68B9C0013D440 /* AudioSample.swift */,
+				10F82C8E2CA6DBB0005ACF6C /* TouchCommand.swift */,
 				E14F43FD2CA68B9C0013D440 /* GameScene.sks */,
 				E14F43FE2CA68B9C0013D440 /* GameScene.swift */,
 				E14F43FF2CA68B9C0013D440 /* GameViewController.swift */,
@@ -311,6 +314,7 @@
 				E127BCAF2C993FD600A0C646 /* GameScene.swift in Sources */,
 				E127BCB12C993FD600A0C646 /* GameViewController.swift in Sources */,
 				E14F44062CA68B9C0013D440 /* AppDelegate.swift in Sources */,
+				10F82C8F2CA6DBB0005ACF6C /* TouchCommand.swift in Sources */,
 				E14F440B2CA68B9C0013D440 /* GameViewController.swift in Sources */,
 				E14F44082CA68B9C0013D440 /* AudioSample.swift in Sources */,
 				E14F440A2CA68B9C0013D440 /* GameScene.swift in Sources */,
