@@ -29,6 +29,8 @@
 		E14F440B2CA68B9C0013D440 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F43FF2CA68B9C0013D440 /* GameViewController.swift */; };
 		E14F440C2CA68B9C0013D440 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E14F44012CA68B9C0013D440 /* LaunchScreen.storyboard */; };
 		E14F440D2CA68B9C0013D440 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E14F44032CA68B9C0013D440 /* Main.storyboard */; };
+		E14F442E2CA6FB6F0013D440 /* TopMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F442D2CA6FB6F0013D440 /* TopMenu.swift */; };
+		E14F444E2CA717B70013D440 /* RecCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14F444D2CA717B70013D440 /* RecCommand.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		E14F43FF2CA68B9C0013D440 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		E14F44002CA68B9C0013D440 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E14F44022CA68B9C0013D440 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E14F442D2CA6FB6F0013D440 /* TopMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenu.swift; sourceTree = "<group>"; };
+		E14F444D2CA717B70013D440 /* RecCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +165,9 @@
 				E14F43F92CA68B9C0013D440 /* Actions.sks */,
 				E14F43FA2CA68B9C0013D440 /* AppDelegate.swift */,
 				E14F43FB2CA68B9C0013D440 /* Assets.xcassets */,
+				E14F442D2CA6FB6F0013D440 /* TopMenu.swift */,
 				E14F43FC2CA68B9C0013D440 /* AudioSample.swift */,
+				E14F444D2CA717B70013D440 /* RecCommand.swift */,
 				10F82C8E2CA6DBB0005ACF6C /* TouchCommand.swift */,
 				E14F43FD2CA68B9C0013D440 /* GameScene.sks */,
 				E14F43FE2CA68B9C0013D440 /* GameScene.swift */,
@@ -316,6 +322,8 @@
 				E14F44062CA68B9C0013D440 /* AppDelegate.swift in Sources */,
 				10F82C8F2CA6DBB0005ACF6C /* TouchCommand.swift in Sources */,
 				E14F440B2CA68B9C0013D440 /* GameViewController.swift in Sources */,
+				E14F442E2CA6FB6F0013D440 /* TopMenu.swift in Sources */,
+				E14F444E2CA717B70013D440 /* RecCommand.swift in Sources */,
 				E14F44082CA68B9C0013D440 /* AudioSample.swift in Sources */,
 				E14F440A2CA68B9C0013D440 /* GameScene.swift in Sources */,
 				E127BCA92C993FD600A0C646 /* AppDelegate.swift in Sources */,
